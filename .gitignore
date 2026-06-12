@@ -1,0 +1,63 @@
+# Build output
+build/
+out/
+cmake-build-*/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+Testing/
+_deps/
+compile_commands.json
+
+# Ninja / Make
+build.ninja
+.ninja_deps
+.ninja_log
+
+# Object / binary
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.gch
+*.pch
+
+# Debug
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Sanitizer / coverage
+*.profraw
+*.profdata
+*.gcda
+*.gcno
+*.gcov
+
+# Editors / IDE
+.vscode/
+.idea/
+.cache/
+*.swp
+*.swo
+*~
+.clangd/
+.ccls-cache/
+
+# OS
+.DS_Store
+Thumbs.db
+

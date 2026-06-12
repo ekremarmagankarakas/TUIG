@@ -1,0 +1,6 @@
+[submodule "chesscli"]
+	path = chesscli
+	url = https://github.com/ekremarmagankarakas/chesscli
+[submodule "damacli"]
+	path = damacli
+	url = https://github.com/ekremarmagankarakas/damacli
