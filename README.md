@@ -14,7 +14,18 @@ configuration. Pick a game from the menu and play, or configure it.
 Each game runs on its own (`chesscli`, `damacli`) and reads its own config
 file. The launcher is just a convenient entry point.
 
-## Build
+## Install (Homebrew)
+
+```sh
+brew tap ekremarmagankarakas/tuig https://github.com/ekremarmagankarakas/TUIG.git
+brew trust ekremarmagankarakas/tuig
+brew install tuig
+```
+
+The first two commands only need to be run once. After that, `brew upgrade
+tuig` picks up new releases.
+
+## Build (from source)
 
 ```sh
 make build      # Release build
@@ -60,6 +71,25 @@ Both routes invoke the same in-game configuration screen.
 
 Build flags: `-std=c++20 -Wall -Wextra -Wpedantic -g`. Source follows the
 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
+
+## Releasing (maintainer)
+
+1. Commit and push the changes you want to ship on `main`.
+2. Tag the release and push the tag:
+   ```sh
+   git tag v0.2.0 && git push origin v0.2.0
+   ```
+3. Grab the commit SHA the tag points at:
+   ```sh
+   git rev-parse v0.2.0^{commit}
+   ```
+4. In `Formula/tuig.rb`, update the two pinning lines under `url`:
+   ```ruby
+   tag:      "v0.2.0",
+   revision: "<sha from step 3>"
+   ```
+5. Commit and push the formula change. Users get the new version with
+   `brew update && brew upgrade tuig`.
 
 ## License
 
