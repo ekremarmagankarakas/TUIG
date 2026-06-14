@@ -21,19 +21,16 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 set(CHESSCLI_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(DAMACLI_BUILD_TESTS  OFF CACHE BOOL "" FORCE)
 
-add_subdirectory(chesscli)
-add_subdirectory(damacli)
-
-include(FetchContent)
+# Vendored ftxui (see vendor/ftxui submodule, pinned to v5.0.0). Added before
+# the games so their CMakeLists' `if(NOT TARGET ftxui::component)` guard sees
+# the targets already defined and skips its own FetchContent fallback.
 set(FTXUI_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(FTXUI_BUILD_DOCS     OFF CACHE BOOL "" FORCE)
 set(FTXUI_BUILD_TESTS    OFF CACHE BOOL "" FORCE)
-FetchContent_Declare(
-  ftxui
-  URL      https://github.com/ArthurSonzogni/ftxui/archive/refs/tags/v5.0.0.tar.gz
-  URL_HASH SHA256=a2991cb222c944aee14397965d9f6b050245da849d8c5da7c72d112de2786b5b
-)
-FetchContent_MakeAvailable(ftxui)
+add_subdirectory(vendor/ftxui EXCLUDE_FROM_ALL)
+
+add_subdirectory(chesscli)
+add_subdirectory(damacli)
 
 add_executable(tuig src/main.cc)
 target_link_libraries(tuig PRIVATE ftxui::component)

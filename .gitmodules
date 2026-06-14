@@ -4,3 +4,6 @@
 [submodule "damacli"]
 	path = damacli
 	url = https://github.com/ekremarmagankarakas/damacli
+[submodule "vendor/ftxui"]
+	path = vendor/ftxui
+	url = https://github.com/ArthurSonzogni/ftxui

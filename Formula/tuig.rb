@@ -11,8 +11,8 @@ class Tuig < Formula
   depends_on "cmake" => :build
 
   def install
-    # chesscli and damacli are git submodules; fetch their contents before
-    # configuring CMake (GitHub source tarballs would omit them).
+    # chesscli, damacli, and vendor/ftxui are git submodules; fetch them
+    # before configuring CMake (GitHub tarballs would omit submodule content).
     system "git", "submodule", "update", "--init", "--recursive"
 
     system "cmake", "-S", ".", "-B", "build",
