@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main (full history)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Resolve tag and SHA
+        id: tag
+        run: |
+          set -euo pipefail
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          TAG_SHA="$(git rev-list -n 1 "$TAG_NAME")"
+          echo "name=$TAG_NAME" >> "$GITHUB_OUTPUT"
+          echo "sha=$TAG_SHA"   >> "$GITHUB_OUTPUT"
+          echo "Tag: $TAG_NAME -> $TAG_SHA"
+
+      - name: Bump Formula/tuig.rb
+        run: |
+          set -euo pipefail
+          sed -i -E "s|^([[:space:]]*tag:[[:space:]]+)\"v[^\"]+\"|\1\"${{ steps.tag.outputs.name }}\"|" Formula/tuig.rb
+          sed -i -E "s|^([[:space:]]*revision:[[:space:]]+)\"[a-f0-9]+\"|\1\"${{ steps.tag.outputs.sha }}\"|" Formula/tuig.rb
+          echo "--- Diff ---"
+          git diff Formula/tuig.rb || true
+
+      - name: Commit and push (if changed)
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet Formula/tuig.rb; then
+            echo "Formula already up to date; nothing to commit."
+            exit 0
+          fi
+          git add Formula/tuig.rb
+          git commit -m "Bump formula to ${{ steps.tag.outputs.name }} [skip ci]"
+          git push origin main
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.tag.outputs.name }}" \
+            --title "${{ steps.tag.outputs.name }}" \
+            --generate-notes
