@@ -11,7 +11,7 @@ TUIG_BIN  := $(BUILD_DIR)/tuig
 CHESS_BIN := $(BUILD_DIR)/chesscli/chesscli
 DAMA_BIN  := $(BUILD_DIR)/damacli/damacli
 
-.PHONY: all configure build release debug run chess dama test clean distclean fresh submodules update-submodules compile-commands format help
+.PHONY: all configure build release debug run chess dama test clean distclean fresh submodules update-submodules compile-commands format install-hooks help
 
 all: build ## Build tuig (default)
 
@@ -66,6 +66,10 @@ update-submodules: ## Pull latest default-branch tip for each submodule
 compile-commands: ## Symlink build/compile_commands.json to repo root
 	@if [ ! -f "$(BUILD_DIR)/compile_commands.json" ]; then $(MAKE) configure; fi
 	ln -sf "$(BUILD_DIR)/compile_commands.json" compile_commands.json
+
+install-hooks: ## Wire .githooks/ into this git repo (pre-commit format check)
+	git config core.hooksPath .githooks
+	@echo "pre-commit hook installed (.githooks/pre-commit)"
 
 format: ## Run clang-format on src/ (no-op if clang-format missing)
 	@if command -v $(CLANG_FORMAT) >/dev/null 2>&1; then \
