@@ -1,9 +1,9 @@
 [submodule "chesscli"]
 	path = chesscli
-	url = https://github.com/ekremarmagankarakas/chesscli
+	url = git@github.com:ekremarmagankarakas/chesscli.git
 [submodule "damacli"]
 	path = damacli
-	url = https://github.com/ekremarmagankarakas/damacli
+	url = git@github.com:ekremarmagankarakas/damacli.git
 [submodule "vendor/ftxui"]
 	path = vendor/ftxui
 	url = https://github.com/ArthurSonzogni/ftxui
