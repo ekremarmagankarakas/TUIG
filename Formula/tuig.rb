@@ -3,8 +3,8 @@ class Tuig < Formula
   homepage "https://github.com/ekremarmagankarakas/TUIG"
   url "https://github.com/ekremarmagankarakas/TUIG.git",
       using:    :git,
-      tag:      "v0.2.1",
-      revision: "fded6c721a60c13d9dada5e556b556cf333f8169"
+      tag:      "v0.2.2",
+      revision: "ab1cb00ee9cfd0227187b70b88f2e96cc8206256"
   license "MIT"
   head "https://github.com/ekremarmagankarakas/TUIG.git", branch: "main"
 
